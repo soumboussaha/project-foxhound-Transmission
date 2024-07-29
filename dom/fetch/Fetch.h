@@ -12,6 +12,7 @@
 #include "nsError.h"
 #include "nsProxyRelease.h"
 #include "nsString.h"
+#include "nsTaintingUtils.h"
 
 #include "mozilla/DebugOnly.h"
 #include "mozilla/dom/AbortSignal.h"

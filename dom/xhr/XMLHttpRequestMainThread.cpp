@@ -56,6 +56,7 @@
 #include "nsReadableUtils.h"
 #include "nsSandboxFlags.h"
 #include "nsTaintingUtils.h"
+#include "Taint.h"
 
 #include "nsIURI.h"
 #include "nsIURIMutator.h"
@@ -109,6 +110,7 @@
 #include "mozilla/Preferences.h"
 #include "private/pprio.h"
 #include "XMLHttpRequestUpload.h"
+
 
 // Undefine the macro of CreateFile to avoid FileCreatorHelper#CreateFile being
 // replaced by FileCreatorHelper#CreateFileW.

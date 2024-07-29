@@ -1305,6 +1305,50 @@ StringTaint ParseTaint(const std::string& str)
     return taint;
 }
 
+/*
+This Piece of code is added to add the ability to deserialize a Taintstring object 
+and convert it to a json like Taint representation as a string 
+// [{begin: 10, end: 20, source: 'src1'}, {begin: 80, end: 90, source: 'src2'}]
+*/
+
+std::string convertToString(const TaintRange& range) 
+{
+
+  std::stringstream ss;
+  ss << "begin : ";
+  ss << range.begin();
+  ss << ",end : ";
+  ss << range.end();
+  ss << ",source : ";
+  ss << range.flow().source().name();
+  ss << ",sink: ";
+  ss << range.flow().head()->operation().name();
+  std::string s = ss.str();
+
+  return s;
+}
+
+std::string serializeStringtaint(const StringTaint& taintstr) {
+  std::string s = "[";
+  bool nonempty=false;
+  for (auto& range : taintstr) {
+    nonempty=true;
+    s +="{";
+    s += convertToString(range);
+    s +="},";  }
+
+    if (nonempty) {
+    s=s.substr(0,s.length()-1);
+    }
+
+  s += "]";
+
+  return s;
+}
+
+
+
+
 #ifdef TAINT_DEBUG
 
 void PrintTaint(const StringTaint& taint)
@@ -1340,48 +1384,6 @@ void DumpTaintOperation(const TaintOperation& operation) {
 
 }
 
-
-/*
-This Piece of code is added to add the ability to deserialize a Taintstring object 
-and convert it to a json like Taint representation as a string 
-// [{begin: 10, end: 20, source: 'src1'}, {begin: 80, end: 90, source: 'src2'}]
-*/
-
-std::string convertToString(const TaintRange& range) 
-{
-
-  stringstream ss;
-  ss << "begin : ";
-  ss << range.begin();
-  ss << ",end : ";
-  ss << range.end();
-  ss << ",source : ";
-  ss << range.flow().source().name();
-  ss << ",sink: ";
-  ss << range.flow().head()->operation().name();
-  string s = ss.str();
-
-  return s;
-}
-
-std::string serializeStringtaint(const StringTaint& taintstr) {
-  std::string s = "[";
-  bool nonempty=false;
-  for (auto& range : taintstr) {
-    nonempty=true;
-    s +="{";
-    s += convertToString(range);
-    s +="},";  }
-
-    if (nonempty) {
-    s=s.substr(0,s.length()-1);
-    }
-
-  s += "]";
-
-  return s;
-}
-
 void TaintDebug(std::string_view message,
                 std::experimental::source_location location)
 {
@@ -1391,5 +1393,6 @@ void TaintDebug(std::string_view message,
               << location.function_name() << " "
               << message << std::endl;
 }
+
 
 #endif

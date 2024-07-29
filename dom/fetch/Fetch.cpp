@@ -28,6 +28,8 @@
 #include "nsStringStream.h"
 #include "nsProxyRelease.h"
 #include "nsTaintingUtils.h"
+#include "Taint.h"
+
 
 #include "mozilla/ErrorResult.h"
 #include "mozilla/dom/BindingDeclarations.h"
@@ -58,6 +60,8 @@
 #include "mozilla/dom/WorkerRef.h"
 #include "mozilla/dom/WorkerRunnable.h"
 #include "mozilla/dom/WorkerScope.h"
+
+
 
 namespace mozilla::dom {
 
